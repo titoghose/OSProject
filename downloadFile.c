@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #define BUFFER_SIZE 5000
 /*
 	This header file is used for downloading the client source code and providing it to the server

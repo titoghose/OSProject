@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #define BUFFER_SIZE 5000
 
 /* Use this function to upload file on the server side */
