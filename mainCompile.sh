@@ -2,4 +2,4 @@
 
 fileName=$1
 fName=${fileName%.*}
-gcc $fileName compileCode.c uploadClientFile.c uploadFile.c downloadFile.c -o $fName
+gcc $fileName compileCode.c uploadClientFile.c uploadFile.c downloadFile.c -o $fName -lpthread
