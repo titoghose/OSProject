@@ -14,8 +14,8 @@ void uploadFile(int sockfd,char *fileName[2]){
 	char msg1[] = {"NO ERROR."};
 	char msg2[] = {"INVALID FILETYPE."};
 	void *buf1 = (void *)calloc(BUFFER_SIZE,sizeof(void));
-	void *buf2 = (char *)calloc(BUFFER_SIZE,sizeof(char));
-	filePointer = open(fileName[1],O_RDWR);
+	char *buf2 = (char *)calloc(BUFFER_SIZE,sizeof(char));
+	filePointer = open(fileName[0],O_RDWR);
 	bytesRdWr = read(filePointer,buf2,BUFFER_SIZE);	
 	if(bytesRdWr == -1){
 		printf("Error occurred while reading compilation output file\n");
@@ -30,7 +30,7 @@ void uploadFile(int sockfd,char *fileName[2]){
 	read(sockfd,msg,sizeof(msg));
 	if(strcmp(msg1,buf2) && strcmp(msg2,buf2)){
 		buf1 = (void *)calloc(BUFFER_SIZE,sizeof(void));
-		filePointer = open(fileName[2],O_RDWR);
+		filePointer = open(fileName[1],O_RDWR);
 		bytesRdWr = read(filePointer,buf1,BUFFER_SIZE);	
 		if(bytesRdWr == -1){
 			printf("Error occurred while reading  output file\n");
