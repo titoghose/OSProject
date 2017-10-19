@@ -4,20 +4,36 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <semaphore.h>
 #include <arpa/inet.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include "osproject.h"
+typedef struct mystruct{
+	int clientSockFd;
+	sem_t *write;
+}THREAD_PARAM;
+THREAD_PARAM *initNode(int clientSockFd,sem_t *write){
+	THREAD_PARAM *temp = (THREAD_PARAM *)malloc(sizeof(THREAD_PARAM));
+	temp->clientSockFd = clientSockFd;
+	temp->write = write;
+	return temp;
+}
 void *thread_compile(void *param){
 	int n,filePointer;
 	char fileName[500];
-	int *clientSockFd = (int *) param;
-	n = read(*clientSockFd,fileName,sizeof(fileName));
-	downloadFile(*clientSockFd,fileName);
+	THREAD_PARAM *para = (THREAD_PARAM *)param;
+	n = read(para->clientSockFd,fileName,sizeof(fileName));
+	downloadFile(para->clientSockFd,fileName);
 	char **compiledFileNames = compileCode(fileName);
-	uploadFile(*clientSockFd,compiledFileNames);
-	close(*clientSockFd);
+	uploadFile(para->clientSockFd,compiledFileNames);
+	close(para->clientSockFd);
+	writeLogs(fileName, para->write);
 }
 int main(){
 	int serverSockFd, clientSockFd, n = 1;
+	THREAD_PARAM *param = NULL;
+	sem_t *write = sem_open("writing",O_CREAT,0644,1);
 	struct sockaddr_in serverAddr, clientAddr;
 	serverSockFd = socket(AF_INET, SOCK_STREAM, 0);
 	serverAddr.sin_port = htons(10000);
@@ -29,7 +45,8 @@ int main(){
 	while(1){
 		int len = sizeof(clientAddr);
 		clientSockFd = accept(serverSockFd, (struct sockaddr*)&clientAddr, (socklen_t*)&len);
-		pthread_create(&thread,0,&thread_compile,(void *)&clientSockFd);
+		param = initNode(clientSockFd,write);
+		pthread_create(&thread,0,&thread_compile,(void *)param);
 	}
 	close(serverSockFd);
 	return 0;
