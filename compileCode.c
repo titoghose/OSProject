@@ -3,6 +3,20 @@
 #include <unistd.h>
 #include <string.h>
 
+/*
+	This function invokes a shell script to compile the client code and write errors into a file.
+	
+	Input:
+		Source code file name to compile.
+
+	It generates two files:
+		1. executable in case of successful compilation
+		2. txt file that contains errors or NO ERROR message.
+
+	Returns: 
+		Array containing executable and txt file names 
+*/
+
 char **compileCode(char fileName[]){
 	int compilePID = fork();
 	char **compiledFileNames = (char**) malloc(sizeof(char*) * 2);
@@ -32,12 +46,3 @@ char **compileCode(char fileName[]){
 	}
 	return compiledFileNames;
 }
-/*
-int main()
-{
-	char temp[] = {"temp.c"};
-	char **compiledFileNames = compileCode(temp);
-	printf("%s\n", compiledFileNames[0]);
-	printf("%s\n", compiledFileNames[1]);
-	return 0;
-}*/
