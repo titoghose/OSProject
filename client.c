@@ -8,8 +8,9 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include "osproject.h"
+#include "helperFunctions/osproject.h"
 #define PORTNO 10000
+/* Function to get the contents of the current directory*/
 void getContentsDir(){
 	char *fname;
 	DIR *d;
