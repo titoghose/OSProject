@@ -8,6 +8,7 @@
 #include "osproject.h"
 
 int main(){
+	sem_t *write = sem_open("writing", O_CREAT, 0644, 1);
 	int serverSockFd, clientSockFd, n = 1;
 	struct sockaddr_in serverAddr, clientAddr;
 	serverSockFd = socket(AF_INET, SOCK_STREAM, 0);
@@ -27,8 +28,10 @@ int main(){
 			 char **compiledFileNames = compileCode(fileName);
 			 uploadFile(clientSockFd, compiledFileNames);
 			 close(clientSockFd);
+			 writeLogs(fileName, write);
 		}
 	}
 	close(serverSockFd);
+	sem_close(write);
 	return 0;
 }
