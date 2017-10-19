@@ -8,7 +8,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include "osproject.h"
+#include "helperFunctions/osproject.h"
 
 int main(){
 	sem_t *write = sem_open("writing", O_CREAT, 0644, 1);

@@ -8,17 +8,20 @@
 #include <arpa/inet.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include "osproject.h"
+#include "helperFunctions/osproject.h"
+
 typedef struct mystruct{
 	int clientSockFd;
 	sem_t *write;
 }THREAD_PARAM;
+
 THREAD_PARAM *initNode(int clientSockFd,sem_t *write){
 	THREAD_PARAM *temp = (THREAD_PARAM *)malloc(sizeof(THREAD_PARAM));
 	temp->clientSockFd = clientSockFd;
 	temp->write = write;
 	return temp;
 }
+
 void *thread_compile(void *param){
 	int n,filePointer;
 	char fileName[500];
@@ -30,6 +33,7 @@ void *thread_compile(void *param){
 	close(para->clientSockFd);
 	writeLogs(fileName, para->write);
 }
+
 int main(){
 	int serverSockFd, clientSockFd, n = 1;
 	THREAD_PARAM *param = NULL;
