@@ -4,19 +4,17 @@ ext=${fileName##*\.}
 case $ext in
 	# To compile c source code 
 	c)
-		if gcc $fileName -o $outputFileName; then  
+		gcc $fileName -o $outputFileName 2> $outputFileName.txt
+		if [ ! -s $outputFileName.txt ]; then  
 			echo "NO ERROR." > $outputFileName.txt
-		else
-			gcc $fileName -o $outputFileName 2> $outputFileName.txt
 		fi
 		;;
 
 	# To compile c++ source code
 	cpp)
-		if g++ $fileName -o $outputFileName; then  
+		g++ $fileName -o $outputFileName 2> $outputFileName.txt
+		if [ ! -s $outputFileName.txt ]; then  
 			echo "NO ERROR." > $outputFileName.txt
-		else
-			g++ $fileName -o $outputFileName 2> $outputFileName.txt
 		fi
 		;;
 	
