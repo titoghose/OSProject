@@ -20,7 +20,7 @@ int downloadStatusFile(int sockfd,char *fileName){
 	int filePointer, bytesRdWr, executable = 0;
 	char *buf = (char *)calloc(BUFFER_SIZE,sizeof(char));
 	
-	filePointer = open(fileName,O_RDWR);
+	filePointer = open(fileName,O_RDWR|O_CREAT,0644);
 	bytesRdWr = read(sockfd,buf,BUFFER_SIZE);
 	
 	if(bytesRdWr == -1)
@@ -41,13 +41,14 @@ int downloadStatusFile(int sockfd,char *fileName){
 
 void downloadExecFile(int sockfd, char *fileName){
 	int fileFD, n = 1;
-	void *buf = (void*) malloc(sizeof(void) * BUFFER_SIZE);
+	void *buf = (void*) calloc(BUFFER_SIZE,sizeof(void));
 
-	fileFD = open(fileName, O_RDWR);
-	n = read(sockfd, buf, sizeof(buf));
+	fileFD = open(fileName, O_RDWR|O_CREAT,0777);
+	n = read(sockfd, buf, BUFFER_SIZE);
 	if(n == -1)
 		perror("Error occurred while reading executable file\n");
-	n = write(fileFD, buf, sizeof(buf));
+	n = write(fileFD, buf, n);
 	if(n == -1)
 		perror("Error occurred while writing executable file\n");
+	close(fileFD);
 }

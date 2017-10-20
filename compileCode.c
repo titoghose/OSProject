@@ -39,9 +39,11 @@ char **compileCode(char fileName[]){
 		/* Setting file names by appending .out(executable) and .txt(error) */
 		char *p = strtok(fileName, ".");
 		
-		memcpy(compiledFileNames[1], p, strlen(p));
-		strcat(compiledFileNames[1], ".out\0");
-		memcpy(compiledFileNames[0], p, strlen(p));
+		//memcpy(compiledFileNames[1], p, strlen(p));
+		strcpy(compiledFileNames[1],p);
+		strcat(compiledFileNames[1], "\0");
+		//memcpy(compiledFileNames[0], p, strlen(p));
+		strcpy(compiledFileNames[0],p);
 		strcat(compiledFileNames[0], ".txt\0");
 	}
 	return compiledFileNames;

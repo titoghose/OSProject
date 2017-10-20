@@ -9,15 +9,15 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include "osproject.h"
-
+#define PORTNO 19500
 int main(){
 	sem_t *write = sem_open("writing", O_CREAT, 0644, 1);
 	int serverSockFd, clientSockFd, n = 1;
 	struct sockaddr_in serverAddr, clientAddr;
 	serverSockFd = socket(AF_INET, SOCK_STREAM, 0);
-	serverAddr.sin_port = htons(10000);
+	serverAddr.sin_port = htons(PORTNO);
 	serverAddr.sin_family = AF_INET;
-	serverAddr.sin_addr.s_addr = inet_addr("192.168.43.180");
+	serverAddr.sin_addr.s_addr = inet_addr("10.87.2.75");
 	n = bind(serverSockFd, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
 	n = listen(serverSockFd, 5);
 	while(1){

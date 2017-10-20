@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "osproject.h"
-#define PORTNO 10000
+#define PORTNO 19500
 
 int main()
 {
@@ -17,7 +17,7 @@ int main()
 	struct sockaddr_in address;
 	sockfd = socket(AF_INET,SOCK_STREAM,0);
 	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = inet_addr("192.168.43.180");
+	address.sin_addr.s_addr = inet_addr("10.87.2.75");
 	address.sin_port = htons(PORTNO);
 	len = sizeof(address);
 	printf("Choose an option\n1. Compile file\n2. Exit\n");
@@ -28,7 +28,7 @@ int main()
 		case 1:
 			{
 				char fileName[20];
-				strcpy(fileName, "temp.c");
+				strcpy(fileName, "test.c");
 				result = connect(sockfd,(struct sockaddr *)&address,len);
 				
 				if (result==-1){
@@ -43,12 +43,13 @@ int main()
 				int status = downloadStatusFile(sockfd, statusFileName);
 				printf("Got status file.\n");
 				n = write(sockfd, "ACK", sizeof("ACK"));
-				if(n == 1){
+				if(n){
 					char *execFileName = strtok(fileName, ".");
 					strcat(execFileName, ".out");
+					//printf("Inside downloadExecFile\n");
 					downloadExecFile(sockfd, execFileName);
 					char executable[100];
-					sprintf(executable, "./%s", execFileName);
+					sprintf(executable, "./%s",execFileName);
 					system(executable);
 				}
 				else{
