@@ -10,7 +10,7 @@
 #include <fcntl.h>
 #include "helperFunctions/osproject.h"
 #define PORTNO 10000
-/* Function to get the contents of the current directory*/
+/* Function to get the contents of the current directory */
 void getContentsDir(){
 	char *fname;
 	DIR *d;
@@ -31,13 +31,14 @@ void getContentsDir(){
 	}
 	closedir(d);
 }
+
 int main()
 {
 	int len,result,sockfd,n=1;
 	struct sockaddr_in address;
 	sockfd=socket(AF_INET,SOCK_STREAM,0);
 	address.sin_family=AF_INET;
-	address.sin_addr.s_addr=inet_addr("127.0.0.0");
+	address.sin_addr.s_addr=inet_addr("127.0.0.1");
 	address.sin_port=htons(PORTNO);
 	len=sizeof(address);
 	result=connect(sockfd,(struct sockaddr *)&address,len);
@@ -68,7 +69,7 @@ int main()
 					char returnmsg[]={"Received file"};
 					n=write(sockfd,returnmsg,sizof(returnmsg));
 					char txt[500];
-					n=read(sockfd,txt,sizeof(txt);
+					n=read(sockfd,txt,sizeof(txt));
 					printf("The compild file is available\nDo you want to execute?\n");
 					int choice;
 					scanf("%d",&choice);

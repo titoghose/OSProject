@@ -8,7 +8,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include "helperFunctions/osproject.h"
+#include "osproject.h"
 
 int main(){
 	sem_t *write = sem_open("writing", O_CREAT, 0644, 1);
@@ -17,7 +17,7 @@ int main(){
 	serverSockFd = socket(AF_INET, SOCK_STREAM, 0);
 	serverAddr.sin_port = htons(10000);
 	serverAddr.sin_family = AF_INET;
-	serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	serverAddr.sin_addr.s_addr = inet_addr("192.168.43.180");
 	n = bind(serverSockFd, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
 	n = listen(serverSockFd, 5);
 	while(1){
@@ -27,9 +27,13 @@ int main(){
 		if(clientPID == 0){
 			 char fileName[500];
 			 n = read(clientSockFd, fileName, sizeof(fileName));
+			 printf("Received: %s\n", fileName);
 			 downloadFile(clientSockFd, fileName);
+			 printf("Downloaded: %s\n", fileName);
 			 char **compiledFileNames = compileCode(fileName);
+			 printf("Compiled: %s\n", fileName);
 			 uploadFile(clientSockFd, compiledFileNames);
+			 printf("Uploaded: %s\n", fileName);
 			 close(clientSockFd);
 			 writeLogs(fileName, write);
 		}

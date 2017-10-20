@@ -13,7 +13,7 @@
 void downloadFile(int sockfd,char *fileName){
 	int filePointer,bytesRdWr;
 	char *buf = (char *)calloc(BUFFER_SIZE,sizeof(char));
-	filePointer = open(fileName,O_RDWR);
+	filePointer = open(fileName, O_RDWR, 0644);
 	bytesRdWr = read(sockfd,buf,BUFFER_SIZE);
 	if(bytesRdWr == -1)
 		printf("Error occurred while downloading file\n");
