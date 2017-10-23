@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include<sys/wait.h>
 
 /*
 	This function invokes a shell script to compile the client code and write errors into a file.
