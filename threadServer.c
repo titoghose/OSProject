@@ -43,7 +43,7 @@ int main(){
 	serverSockFd = socket(AF_INET, SOCK_STREAM, 0);
 	serverAddr.sin_port = htons(PORTNO);
 	serverAddr.sin_family = AF_INET;
-	serverAddr.sin_addr.s_addr = inet_addr("192.168.43.78");
+	serverAddr.sin_addr.s_addr = inet_addr("10.92.2.50");
 	n = bind(serverSockFd, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
 	n = listen(serverSockFd,5);
 	pthread_t thread;
