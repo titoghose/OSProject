@@ -17,19 +17,20 @@
 		1 - executable file exists
 */
 int downloadStatusFile(int sockfd,char *fileName){
-	int filePointer, bytesRdWr, executable = 0;
+	//int filePointer, bytesRdWr, executable = 0;
+	int bytesRdWr, executable = 0;
 	char *buf = (char *)calloc(BUFFER_SIZE,sizeof(char));
 	
-	filePointer = open(fileName,O_RDWR|O_CREAT,0644);
+	//filePointer = open(fileName,O_RDWR|O_CREAT,0644);
 	bytesRdWr = read(sockfd,buf,BUFFER_SIZE);
-	
+	printf("%s\n", buf);
 	if(bytesRdWr == -1)
 		perror("Error occurred while downloading file\n");
 	
-	bytesRdWr = write(filePointer,buf,strlen(buf));
+	//bytesRdWr = write(filePointer,buf,strlen(buf));
 	
-	if(bytesRdWr == -1)
-		perror("Error occurred while writing to the file\n");
+	//if(bytesRdWr == -1)
+	//	perror("Error occurred while writing to the file\n");
 	
 	if(strcmp(buf, "NO ERROR.") == 0)
 		executable = 1;

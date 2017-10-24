@@ -17,7 +17,7 @@ int main()
 	struct sockaddr_in address;
 	sockfd=socket(AF_INET,SOCK_STREAM,0);
 	address.sin_family=AF_INET;
-	address.sin_addr.s_addr=inet_addr("10.92.2.50");
+	address.sin_addr.s_addr=inet_addr("192.168.43.78");
 	address.sin_port=htons(PORTNO);
 	len=sizeof(address);
 				
@@ -53,9 +53,9 @@ int main()
 	else
 	{
 		printf("Error in compiling file\n");					
-		int fd = open(statusFileName, O_RDONLY);
-		char buf[5000];
-		write(2, buf, sizeof(buf));
-		printf("%s",buf);
+		//int fd = open(statusFileName, O_RDONLY);
+		//char buf[5000];
+		//write(2, buf, sizeof(buf));
+		//printf("%s",buf);
 	}
 }
