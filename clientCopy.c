@@ -9,7 +9,25 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "osproject.h"
-#define PORTNO 19500
+#include <dirent.h>
+#define PORTNO 16500
+
+void getContentDir(){
+	char *fname;
+	DIR *d;
+	FILE *f;
+	int i=1;
+	int k,n;
+	struct dirent *dir;
+	d = opendir(".");
+	if(d){
+		while((dir=readdir(d))!=NULL){
+			printf("%d.%s\n",i,dir->d_name);
+			i++;
+		}
+	}
+	closedir(d);
+}
 
 int main()
 {
@@ -28,7 +46,13 @@ int main()
 		case 1:
 			{
 				char fileName[20];
-				strcpy(fileName, "test.c");
+				char fName[20];
+				printf("Choose file to Compile\n");
+				getContentDir();
+				printf("Provide a file name\n");
+				scanf("%s",fName);
+				printf("File Name:%s\n",fName);
+				strcpy(fileName, fName);
 				result = connect(sockfd,(struct sockaddr *)&address,len);
 				
 				if (result==-1){
